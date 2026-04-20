@@ -1,0 +1,62 @@
+///main.dart
+
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Code Sample',
+      home: MyStatefulWidget(),
+    );
+  }
+}
+
+class MyStatefulWidget extends StatefulWidget {
+  @override
+  createState() => MyStatefulWidgetState();
+}
+
+class MyStatefulWidgetState extends State<MyStatefulWidget> {
+  bool lightIsOn = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('CHANGE STATE OF LIGHTS'),
+      ),
+      body: Container(
+        alignment: FractionalOffset.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.lightbulb_outline,
+                color: lightIsOn ? Colors.yellow.shade600 : Colors.black,
+                size: 60,
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  lightIsOn = !lightIsOn;
+                });
+              },
+              child: Container(
+                color: Colors.yellow.shade600,
+                padding: EdgeInsets.all(8),
+                child: Text(lightIsOn ? 'TURN LIGHT OFF' : 'TURN LIGHT ON'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

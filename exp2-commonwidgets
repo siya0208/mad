@@ -1,0 +1,116 @@
+///main.dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: const IDCardPage(),
+    );
+  }
+}
+
+class IDCardPage extends StatelessWidget {
+  const IDCardPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('ID Card'),
+        backgroundColor: Colors.blue,
+      ),
+      body: Center(
+        child: IDCard(),
+      ),
+    );
+  }
+}
+
+class IDCard extends StatelessWidget {
+  const IDCard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 6,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            ProfileImage(),
+            SizedBox(height: 10),
+            NameText(),
+            SizedBox(height: 5),
+            RollNumberText(),
+            SizedBox(height: 5),
+            DepartmentText(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileImage extends StatelessWidget {
+  const ProfileImage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const CircleAvatar(
+      radius: 50,
+      backgroundImage: AssetImage('assets/images/photo.png'),
+    );
+  }
+}
+
+class NameText extends StatelessWidget {
+  const NameText({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Text(
+      'siddhi ',
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+}
+
+class RollNumberText extends StatelessWidget {
+  const RollNumberText({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Text('Roll No: 101');
+  }
+}
+
+class DepartmentText extends StatelessWidget {
+  const DepartmentText({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Text('Department: Computer Science');
+  }
+}
+
+
+
+
+///pubspec.yaml
+assets:
+   - assets/images/photo.png

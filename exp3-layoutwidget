@@ -1,0 +1,65 @@
+///main.dart
+
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: ProductList(),
+  ));
+}
+
+class ProductList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Product List'),
+      ),
+      body: ListView(
+        children: [
+          // Manually creating each ListTile for the products
+          ListTile(
+            leading: Image.asset('assets/images/smart_watch.jpeg'),
+            title: Text('Cool Sneakers'),
+            subtitle: Text('Comfortable running shoes'),
+            trailing: Text('\$59.99'),
+          ),
+          ListTile(
+            leading: Image.asset('assets/images/smart_watch.jpeg'),
+            title: Text('Smart Watch'),
+            subtitle: Text('Latest smartwatch with fitness tracking'),
+            trailing: Text('\$120.99'),
+          ),
+          ListTile(
+            leading: Image.asset('assets/images/smart_watch.jpeg'),
+            title: Text('Wireless Headphones'),
+            subtitle: Text('Noise-canceling Bluetooth headphones'),
+            trailing: Text('\$89.99'),
+          ),
+          ListTile(
+            leading: Image.asset('assets/images/smart_watch.jpeg'),
+            title: Text('Gaming Mouse'),
+            subtitle: Text('High precision ergonomic gaming mouse'),
+            trailing: Text('\$39.99'),
+          ),
+          ListTile(
+            leading: Image.asset('assets/images/smart_watch.jpeg'),
+            title: Text('Mechanical Keyboard'),
+            subtitle: Text('RGB backlit mechanical keyboard'),
+            trailing: Text('\$75.00'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+
+//pubspec.yaml
+
+assets:
+ - assets/images/smart_watch.jpeg
