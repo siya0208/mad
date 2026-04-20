@@ -1,0 +1,205 @@
+#main.dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  final List<Map<String, dynamic>> products = [
+    {"name": "Shoes", "price": 1999, "icon": Icons.shopping_bag},
+    {"name": "Watch", "price": 2499, "icon": Icons.watch},
+    {"name": "Headphones", "price": 1599, "icon": Icons.headphones},
+    {"name": "Laptop", "price": 55999, "icon": Icons.laptop},
+    {"name": "Phone", "price": 32999, "icon": Icons.phone_android},
+    {"name": "Camera", "price": 45999, "icon": Icons.camera_alt},
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'E-Commerce App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: HomePage(products: products),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  final List<Map<String, dynamic>> products;
+
+  HomePage({required this.products});
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<Map<String, dynamic>> cart = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("E-Commerce Store"),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CartPage(cart: cart),
+                ),
+              );
+            },
+          )
+        ],
+      ),
+      body: GridView.builder(
+        padding: EdgeInsets.all(12),
+        itemCount: widget.products.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 0.8,
+        ),
+        itemBuilder: (context, index) {
+          final product = widget.products[index];
+
+          return Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(12),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(product["icon"], size: 50, color: Colors.blue),
+                  SizedBox(height: 10),
+                  Text(
+                    product["name"],
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    "₹${product["price"]}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(height: 10),
+                  ElevatedButton(
+                    child: Text("Add to Cart"),
+                    onPressed: () {
+                      setState(() {
+                        cart.add(product);
+                      });
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("${product["name"]} added to cart"),
+                        ),
+                      );
+                    },
+                  )
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class CartPage extends StatelessWidget {
+  final List<Map<String, dynamic>> cart;
+
+  CartPage({required this.cart});
+
+  @override
+  Widget build(BuildContext context) {
+    int total = 0;
+
+    for (var item in cart) {
+      total += item["price"] as int;
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("My Cart"),
+        centerTitle: true,
+      ),
+      body: cart.isEmpty
+          ? Center(
+              child: Text(
+                "Cart is Empty",
+                style: TextStyle(fontSize: 22),
+              ),
+            )
+          : Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: cart.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: Icon(cart[index]["icon"]),
+                        title: Text(cart[index]["name"]),
+                        trailing: Text("₹${cart[index]["price"]}"),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Text(
+                    "Total: ₹$total",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+    );
+  }
+}
+
+
+got to terminal and perform this :
+
+flutter create myapp
+cd myapp
+flutter run -d chrome
+git init
+git add .
+git commit -m "First Flutter ecommerce project"
+git remote add origin "github repo here"
+git branch -M main
+flutter build web
+mkdir docs
+xcopy build\web\* docs\ /E /H /C /I
+
+git add .
+git commit -m "Deploy website"
+ git push
+
+go on github->settings->pages->main and docs
+flutter build web --base-href "/flutter-ecommerce-app/"
+xcopy build\web\* docs\ /E /H /C /I
+git add .
+ git commit -m "Fixed GitHub Pages blank screen"
+ git push
+
+https://siddhijadhav13.github.io/flutter-ecommerce-app/
