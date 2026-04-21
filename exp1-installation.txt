@@ -1,0 +1,84 @@
+step1:go to this site and install Linux for vs 
+
+https://docs.flutter.dev/install/with-vs-code
+
+sudo apt update
+sudo apt install git curl unzip xz-utils zip libglu1-mesa
+
+git clone https://github.com/flutter/flutter.git -b stable
+
+export PATH="$PATH:`pwd`/flutter/bin"
+
+Permanent setup:
+
+Open .bashrc:
+
+		nano ~/.bashrc
+
+Add this line at the end:
+
+		export PATH="$PATH:$HOME/flutter/bin"
+
+Save and apply:
+
+		source ~/.bashrc
+
+5. Verify Installation
+
+Run:
+
+		flutter doctor
+
+7. Install Flutter & Dart Extensions
+Open VS Code
+Go to Extensions (Ctrl + Shift + X)
+Install:
+Flutter
+Dart
+
+
+10. Final Check
+		flutter doctor
+
+Make sure everything is ✔ or only minor warnings
+
+11. Create a Flutter Project
+		flutter create my_app
+		cd my_app
+		
+12. Run the App
+
+		flutter run
+or 
+
+	flutter run -d chrome
+
+
+
+main.dart 
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Hello World App',
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Hello World'),
+        ),
+        body: Center(
+          child: Text(
+            'Hello, World!',
+            style: TextStyle(fontSize: 24),
+          ),
+        ),
+      ),
+    );
+  }
+}
