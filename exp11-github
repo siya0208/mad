@@ -203,3 +203,201 @@ git add .
  git push
 
 https://siddhijadhav13.github.io/flutter-ecommerce-app/
+
+
+
+
+
+
+
+
+
+
+#main.dart second code 
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Ecommerce PWA',
+      debugShowCheckedModeBanner: false,
+      home: ProductPage(),
+    );
+  }
+}
+
+// ---------------- PRODUCT PAGE ----------------
+
+class ProductPage extends StatefulWidget {
+  @override
+  _ProductPageState createState() => _ProductPageState();
+}
+
+class _ProductPageState extends State<ProductPage> {
+  List<Map<String, dynamic>> cart = [];
+
+  void addToCart(String name, int price, String image) {
+    setState(() {
+      cart.add({
+        "name": name,
+        "price": price,
+        "image": image,
+      });
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("$name added to cart")),
+    );
+  }
+
+  Widget productCard(String name, int price, String image) {
+    return Card(
+      margin: EdgeInsets.all(10),
+      child: ListTile(
+        leading: Image.asset(image, width: 50, height: 50, fit: BoxFit.cover),
+        title: Text(name),
+        subtitle: Text("₹$price"),
+        trailing: ElevatedButton(
+          child: Text("Add"),
+          onPressed: () {
+            addToCart(name, price, image);
+          },
+        ),
+      ),
+    );
+  }
+
+  void goToCart() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CartPage(cart: cart),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Ecommerce Store"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: goToCart,
+          )
+        ],
+      ),
+      body: Column(
+        children: [
+          productCard("Shoes", 2000, "assets/images/shoes.jpeg"),
+          productCard("Watch", 1500, "assets/images/watch.jpeg"),
+          productCard("Bag", 1200, "assets/images/bag.jpeg"),
+        ],
+      ),
+    );
+  }
+}
+
+// ---------------- CART PAGE ----------------
+
+class CartPage extends StatelessWidget {
+  final List<Map<String, dynamic>> cart;
+
+  CartPage({required this.cart});
+
+  int getTotal() {
+    int total = 0;
+    for (var item in cart) {
+      total += item["price"] as int;
+    }
+    return total;
+  }
+
+  void goToLogout(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LogoutPage(),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Cart"),
+      ),
+      body: cart.isEmpty
+          ? Center(child: Text("Cart is empty"))
+          : Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: cart.length,
+                    itemBuilder: (context, index) {
+                      var item = cart[index];
+                      return ListTile(
+                        leading: Image.asset(item["image"], width: 50),
+                        title: Text(item["name"]),
+                        subtitle: Text("₹${item["price"]}"),
+                      );
+                    },
+                  ),
+                ),
+                Text(
+                  "Total: ₹${getTotal()}",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+                ElevatedButton(
+                  child: Text("Checkout"),
+                  onPressed: () {
+                    goToLogout(context);
+                  },
+                ),
+                SizedBox(height: 10),
+              ],
+            ),
+    );
+  }
+}
+
+// ---------------- LOGOUT PAGE ----------------
+
+class LogoutPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Logout"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.logout, size: 80),
+            SizedBox(height: 20),
+            Text(
+              "Thank you for shopping!",
+              style: TextStyle(fontSize: 22),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              child: Text("Go to Home"),
+              onPressed: () {
+                Navigator.popUntil(context, (route) => route.isFirst);
+              },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
